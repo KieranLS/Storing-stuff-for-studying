@@ -1,0 +1,58 @@
+@baseUrl = http://localhost:4657/api
+
+### 1. Registrar usuário
+POST {{baseUrl}}/auth/registrar
+Content-Type: application/json
+
+{
+  "nome": "Maria Silva",
+  "email": "maria@exemplo.com",
+  "senha": "123456"
+}
+
+### 2. Login (copie o "token" da resposta e cole na variável abaixo)
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+  "email": "maria@exemplo.com",
+  "senha": "123456"
+}
+
+### 3. Ver perfil sem token — deve retornar 401 depois que a rota for protegida
+GET {{baseUrl}}/auth/perfil
+
+### 4. Ver perfil com token — deve retornar 200
+@token = COLE_O_TOKEN_AQUI
+GET {{baseUrl}}/auth/perfil
+Authorization: Bearer {{token}}
+
+### 5. Listar tarefas sem token — deve retornar 401 depois que a rota for protegida
+GET {{baseUrl}}/tarefas
+
+### 6. Criar tarefa com token
+POST {{baseUrl}}/tarefas
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "titulo": "Estudar JWT",
+  "descricao": "Terminar o exercício de autenticação"
+}
+
+### 7. Listar tarefas com token — deve retornar só as tarefas do usuário logado
+GET {{baseUrl}}/tarefas
+Authorization: Bearer {{token}}
+
+### 8. Atualizar tarefa (troque o :id pelo id retornado no passo 6)
+PUT {{baseUrl}}/tarefas/1
+Content-Type: application/json
+Authorization: Bearer {{token}}
+
+{
+  "concluida": true
+}
+
+### 9. Remover tarefa (troque o :id pelo id retornado no passo 6)
+DELETE {{baseUrl}}/tarefas/1
+Authorization: Bearer {{token}}
